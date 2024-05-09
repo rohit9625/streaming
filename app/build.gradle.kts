@@ -24,11 +24,23 @@ android {
             useSupportLibrary = true
         }
 
-        val properties = Properties()
-        properties.load(project.rootProject.file("local.properties").inputStream())
+        val supabaseUrl: String?
+        val supabaseAnonKey: String?
 
-        buildConfigField("String", "SUPABASE_URL", properties.getProperty("SUPABASE_URL"))
-        buildConfigField("String", "SUPABASE_ANON_KEY", properties.getProperty("SUPABASE_ANON_KEY"))
+        val localPropertiesFile = File("local.properties")
+        val properties = Properties()
+
+        if(localPropertiesFile.exists()) {
+            properties.load(localPropertiesFile.inputStream())
+            supabaseUrl = properties.getProperty("SUPABASE_URL")
+            supabaseAnonKey = properties.getProperty("SUPABASE_ANON_KEY")
+        }else {
+            supabaseUrl = System.getenv("SUPABASE_URL")
+            supabaseAnonKey = System.getenv("SUPABASE_ANON_KEY")
+        }
+
+        buildConfigField("String", "SUPABASE_URL", supabaseUrl)
+        buildConfigField("String", "SUPABASE_ANON_KEY", supabaseAnonKey)
     }
 
     buildTypes {
