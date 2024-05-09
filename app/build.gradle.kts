@@ -35,6 +35,7 @@ android {
             supabaseUrl = properties.getProperty("SUPABASE_URL")
             supabaseAnonKey = properties.getProperty("SUPABASE_ANON_KEY")
         }else {
+            println("local.properties file not found!")
             supabaseUrl = System.getenv("SUPABASE_URL")
             supabaseAnonKey = System.getenv("SUPABASE_ANON_KEY")
         }
